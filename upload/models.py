@@ -10,6 +10,11 @@ class Post(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, on_delete=models.CASCADE)
     
+    @classmethod
+    def search_by_title(cls,search_term):
+        post = cls.objects.filter(title__icontains=search_term)
+        return post
+    
     def __str__(self):
         return self.title
     
