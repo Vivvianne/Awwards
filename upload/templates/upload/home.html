@@ -8,7 +8,7 @@
             <div class="col-xs-6 col-sm-6 col-md-6 col-lg-6">
                 <img src="{{post.image.url}}" class="img-responsive" alt="Image">
             </div>
-            <small class="text-muted">{{ post.date_posted }}</small>
+            <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}</small>
         </div>
         <h4><a class="article-title" href="#">{{ post.title }}</a></h4>
         <p class="article-description">{{ post.description }}</p>
