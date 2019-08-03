@@ -38,3 +38,17 @@ def profile(request):
     }
 
     return render(request, 'users/profile.html', context) 
+@login_required
+def profile_save(request):
+    if request.method =='POST':
+        u_form = UserUpdateForm(request.POST, instance=request.user)
+        a_form = ProfileUpdateForm(request.POST, request.FILES)
+        if a_form.is_valid():
+            image = a_form.save(commit=False)
+            image.author = request.user
+            u_form.save()
+            image.save()
+            return redirect('upload-home')
+    else:
+        a_form = ProfileUpdateForm()
+    return render(request,'users/profile.html',{'form':a_form})
