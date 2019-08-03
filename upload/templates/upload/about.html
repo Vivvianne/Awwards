@@ -1,4 +1,56 @@
 {% extends "upload/base.html" %}
 {% block content %}
-    <h1>About Page</h1>
+<h1>About Page</h1>
+
+<head>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+    <script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+    ​
+</head>
+​
+
+<body>
+    ​
+    <div class="container">
+        <div class="row">
+            ​
+            <div class="col-2">
+                <button style="font-size:17px;color:maroon" id="plus">Upesaw <i class="fa fa-arrow-circle-up"
+                        style="font-size:14px;color:red"></i></button>
+                ​
+                <button style="font-size:17px;color:maroon" id="minus">Downer <i class="fa fa-arrow-circle-down"
+                        style="font-size:14px;color:orange"></i></button>​
+                <table>
+                    <tr>
+                        <td>
+                            <div id="count">0</div>
+                        </td>
+                        <td>
+                            <div id="count1">0</div>
+                        </td>
+                    </tr>
+                </table>
+                ​
+                ​
+            </div>
+            ​
+        </div>
+    </div>
+    ​
+    <script>
+        var counter = 0;​
+        $("#plus").click(function () {
+            counter++;
+            $("#count").text(counter);
+        });
+        var counter1 = 0;​​
+        $("#minus").click(function () {
+            counter1--;
+            $("#count1").text(counter1);
+        });​
+    </script>
+    ​
+</body>
 {% endblock content %}

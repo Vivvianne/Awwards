@@ -7,7 +7,8 @@ from django.views.generic import (
     DetailView,
     CreateView,
     UpdateView,
-    DeleteView
+    DeleteView,
+    # PostCommentView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
 

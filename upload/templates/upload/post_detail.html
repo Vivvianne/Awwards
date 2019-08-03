@@ -10,7 +10,18 @@
         <div class="container">
             <h4 class="article_title">{{ object.title }}</h4>
             <small class="article-description">{{ object.description }}</small>
-            <small class="article-link">{{ object.link }}</small>
+            {% comment %} <small class="article-link">{{ object.link }}</small>
+            <small class="post-comments">Leave A Comment</small>
+            <small>Total Number of comments {{ post.comments.count }}</small>
+            <a href="{% url 'add-comment' %}">Leave a comment</a>
+            {% for comments in post.comments.all %}
+                <small>{{ comment.created }}</small>
+                <small>{{ comment.user }}</small>
+                <small>{{ comment.post }}</small>
+                <small></small>
+            {% empty %}
+                <small>There is no comment</small>
+            {% endfor %} {% endcomment %}
             <small class="article-comments">
                 <ul id="comment" class="btn btn-info"><i class="fas fa-comment">
                         {% for comment in comments %}
@@ -28,7 +39,7 @@
                     </fieldset>
 
                 </form>
-            </small>
+            </small> 
             <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}
             </small>
             {% if object.author == user %}

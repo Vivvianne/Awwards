@@ -8,7 +8,8 @@ from .views import (
     # PostCreateView,
     PostUpdateView,
     PostDeleteView,
-    UserPostListView
+    UserPostListView,
+    # PostCommentView
 )
 
 urlpatterns = [
@@ -19,7 +20,8 @@ urlpatterns = [
     # path('post/new/', PostCreateView.as_view(), name='post-create'),
     path('post/<int:pk>/update/', PostUpdateView.as_view(), name='post-update'),
     path('post/<int:pk>/delete/', PostDeleteView.as_view(), name='post-delete'),
-    path('search/', views.search_results, name='search_results')
+    path('search/', views.search_results, name='search_results'),
+    # path('post/<int:pk>/comment/', PostCommentView.as_view(), name ='add-comment')
 ]
 if settings.DEBUG:
     urlpatterns+= static(settings.MEDIA_URL, document_root = settings.MEDIA_ROOT)

@@ -7,6 +7,7 @@ from .models import Post
 class CommentsForm(forms.ModelForm):
        class Meta:
         model = Comments
+        fields = ('commentor', 'post')
         exclude = ['post','username','date','count']
         
         

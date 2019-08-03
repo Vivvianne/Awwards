@@ -38,6 +38,28 @@
                     <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}
                     </small>
                 </div>
+                 <div class="container">
+        <div class="row">
+            ​
+            <div class="col-2">
+                <button class="btn btn-secondary btn-sm mt-1 mb-1" id="plus">Vote <i class="fa fa-arrow-circle-up"
+                        style="font-size:14px;color:red"></i></button>
+                <table>
+                    <tr>
+                        <td>
+                            <div id="count">0</div>
+                        </td>
+                        <td>
+                            <div id="count1">0</div>
+                        </td>
+                    </tr>
+                </table>
+                ​
+                ​
+            </div>
+            ​
+        </div>
+    </div>
             </div>
     </article>
 {% endfor %}
@@ -64,3 +86,16 @@
 {% endif %}
 
 {% endblock content %}
+{% block scripts %} 
+{{block.super}}
+  var counter = 0;​
+        $("#plus").click(function () {
+            counter++;
+            $("#count").text(counter);
+        });
+        var counter1 = 0;​​
+        $("#minus").click(function () {
+            counter1--;
+            $("#count1").text(counter1);
+        });​
+{% endblock %}
