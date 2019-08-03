@@ -3,6 +3,8 @@ from django.utils import timezone
 from django.contrib.auth.models import User
 from PIL import Image
 from django.urls import reverse
+
+
 class Post(models.Model):
     title = models.CharField(max_length=100)
     image = models.ImageField(upload_to = "images/",null = True)

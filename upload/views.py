@@ -1,5 +1,6 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 from .models import Post
+from .forms import PostCreateForm
 from django.views.generic import (
     ListView,
     DetailView,
@@ -21,6 +22,7 @@ class PostListView(ListView):
     template_name = 'upload/home.html'
     context_object_name = 'posts'
     ordering =['-date_posted']
+    paginate_by = 2
     
     
 class PostDetailView(DetailView):
@@ -28,13 +30,30 @@ class PostDetailView(DetailView):
     # template_name = 'upload/post_details.html'
     
     
-class PostCreateView(LoginRequiredMixin, CreateView):
-    model = Post
-    fields = ['title', 'image', 'description', 'link']
+# class PostCreateView(LoginRequiredMixin, CreateView):
+#     model = Post
+#     fields = ['title', 'image', 'description', 'link']
     
-    def form_valid(self, form):
-        form.instance.author = self.request.user
-        return super().form_valid(form)
+#     def form_valid(self, form):
+#         form.instance.author = self.request.user
+#         return super().form_valid(form)
+    
+    
+def post_save(request):
+    if request.method =='POST':
+    # u_form = UserUpdateForm(request.POST, instance=request.user)
+        a_form = PostCreateForm(request.POST, request.FILES)
+        if a_form.is_valid():
+            image = a_form.save(commit=False)
+            image.author = request.user
+            # u_form.save()
+            image.save()
+            return redirect('upload-home')
+    else:
+        a_form = PostCreateForm()
+    return render(request,'upload/post_form.html',{'form':a_form})
+    
+    
     
 class PostUpdateView(LoginRequiredMixin, UserPassesTestMixin, UpdateView):
     model = Post
