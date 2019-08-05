@@ -41,7 +41,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'upload.apps.UploadConfig',
-    'users.apps.UsersConfig',
+    'users',
     'bootstrap3',
     'crispy_forms',
 ]
@@ -145,3 +145,4 @@ MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
 CRISPY_TEMPLATE_PACK ='bootstrap4'
 LOGIN_REDIRECT_URL = 'upload-home'
 LOGIN_URL = 'login'
+django_heroku.settings(locals())
