@@ -26,6 +26,8 @@ Awwards is a web application where users can post project(s) they have created a
 | Vote on a particular project | Click on vote | Your votes will be seen for the particular post |
 | Deleted project | Click on a particular project, then click on delete button | The project will be deleted |
 | Updated Profile | Click on profile then click on update, fill in the required fields | Profile will be updated |
+| Going to the next page | Scroll down to the end of the page and click the page you would want to go to | Ariive at the prefered page |
+
 
 
 
