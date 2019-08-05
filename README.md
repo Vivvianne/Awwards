@@ -34,7 +34,7 @@ Awwards is a web application where users can post project(s) they have created a
 
 ## Live Link
 
-One can view the live site here
+One can view the live site here https://projectrate.herokuapp.com/
 
 
 ## Requirements
