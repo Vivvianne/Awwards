@@ -48,6 +48,7 @@ INSTALLED_APPS = [
     'crispy_forms',
     'rest_framework',
     'tinymce',
+    'rest_framework.authtoken',
 ]
 
 MIDDLEWARE = [
@@ -81,6 +82,12 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'awwards.wsgi.application'
+
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
 
 
 # Database

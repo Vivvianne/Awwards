@@ -18,6 +18,7 @@ from rest_framework.response import Response
 from rest_framework.views import APIView
 from .models import  VotesMerch
 from rest_framework import status
+from .permissions import IsAdminOrReadOnly
 
 def home(request):
     context = {
@@ -138,6 +139,7 @@ class MerchList(APIView):
     
     def post(self, request, format=None):
         serializers = MerchSerializer(data=request.data)
+        permission_classes = (IsAdminOrReadOnly,)
         if serializers.is_valid():
             serializers.save()
             return Response(serializers.data, status=status.HTTP_201_CREATED)
