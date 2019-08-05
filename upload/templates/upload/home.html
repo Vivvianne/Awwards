@@ -1,67 +1,56 @@
 {% extends "upload/base.html" %}
+{% load static %}
 {% block content %}
+<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+<link rel="stylesheet" type="text/css" href="{% static 'upload/main.css' %}">
+
 {% for post in posts %}
-    <article class="media content-section">
-        <div class="container">
-            <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
-        </div>
-        
-        <div class="media-body">
-
-            <div class= "article-metadata">
-                <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
-                <div class=" col-xs-6 col-sm-6 col-md-6 col-lg-6">
-                    <img src="{{post.image.url}}" class="img-responsive" alt="Image">
-                </div>
-                <div class="container">
-                        <h4><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
-                    <small class="article-description">{{ post.description }}</small>
-                    <small class="article-link">{{ post.link }}</small>
-                    <small class="article-comments">
-                        <ul id="comment" class="btn btn-info"><i class="fas fa-comment">
-                                {% for comment in comments %}
-                                <p>{{post.comment}}</p>
-                                {% endfor %}
-                            </i>
-                        </ul>
-                        <form action="" method="post">
-                            {% csrf_token %}
-                            <fieldset class="form-group">
-                                <legend class="border-bottom mb-4">comment</legend>
-                                {{ form }}
-                                <input type="submit" class="btn btn-primary" value="Post">
-
-                            </fieldset>
-
-                        </form>
-                    </small>
-                    <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}
-                    </small>
-                </div>
-                 <div class="container">
-        <div class="row">
-            ​
-            <div class="col-2">
-                <button class="btn btn-secondary btn-sm mt-1 mb-1" id="plus">Vote <i class="fa fa-arrow-circle-up"
-                        style="font-size:14px;color:red"></i></button>
-                <table>
-                    <tr>
-                        <td>
-                            <div id="count">0</div>
-                        </td>
-                        <td>
-                            <div id="count1">0</div>
-                        </td>
-                    </tr>
-                </table>
-                ​
-                ​
-            </div>
-            ​
-        </div>
+<article class="media content-section">
+    <div class="container">
+        <img class="rounded-circle article-img" src="{{ post.author.profile.image.url }}">
     </div>
+
+    <div class="media-body">
+
+        <div class="article-metadata">
+            <a class="mr-2" href="{% url 'user-posts' post.author.username %}">{{ post.author }}</a>
+            <div class=" col-xs-6 col-sm-6 col-md-6 col-lg-6">
+                <img src="{{post.image.url}}" class="img-responsive" alt="Image">
             </div>
-    </article>
+            <div class="container">
+                <h4><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
+                <small class="article-description">{{ post.description }}</small>
+                <small class="article-link">{{ post.link }}</small>
+                <small class="article-comments">
+                    <ul id="comment" class="btn btn-info"><i class="fas fa-comment">
+                            {% for comment in comments %}
+                            <p>{{post.comment}}</p>
+                            {% endfor %}
+                        </i>
+                    </ul>
+                    <form action="" method="post">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">comment</legend>
+                            {{ form }}
+                            <input type="submit" class="btn btn-primary" value="Post">
+
+                        </fieldset>
+
+                    </form>
+                </small>
+                <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}
+                </small>
+            </div>
+            <div class="my-rating"></div>
+                <h5>Click to rate:</h5>
+                <div class='starrr' id='star1'></div>
+                <div>&nbsp;
+                    <span class='your-choice-was' style='display: none;'>Your rating was <span class='choice'></span>.
+                    </span>
+
+                </div>
+</article>
 {% endfor %}
 {% if is_paginated %}
 
@@ -86,16 +75,20 @@
 {% endif %}
 
 {% endblock content %}
-{% block scripts %} 
+{% block scripts %}
 {{block.super}}
-  var counter = 0;​
-        $("#plus").click(function () {
-            counter++;
-            $("#count").text(counter);
-        });
-        var counter1 = 0;​​
-        $("#minus").click(function () {
-            counter1--;
-            $("#count1").text(counter1);
-        });​
+<script>
+    $('#star1').starrr({
+      change: function(e, value){
+        if (value) {
+          $('.your-choice-was').show();
+          $('.choice').text(value);
+        } else {
+          $('.your-choice-was').hide();
+        }
+      }
+    });
+  </script>
+<link rel="stylesheet" type="text/javascript" href="{% static 'js/starrr.js' %}">
+
 {% endblock %}
