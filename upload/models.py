@@ -49,4 +49,10 @@ class Comments(models.Model):
     
     def save_comment(self):
         self.save()
+        
+        
+class VotesMerch(models.Model):
+    post = models.ForeignKey('Post', on_delete=models.CASCADE, default = "")
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default = "")
+    count  = models.IntegerField()
     

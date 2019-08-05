@@ -1,5 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
+from django.contrib.auth import authenticate, login, logout
 from .forms import PostCreateForm
 from django.contrib.auth.models import User
 from django.views.generic import (
@@ -11,12 +12,32 @@ from django.views.generic import (
     # PostCommentView
 )
 from django.contrib.auth.mixins import LoginRequiredMixin, UserPassesTestMixin
+from django.contrib.auth.decorators import login_required
+from .serializer import MerchSerializer
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from .models import  VotesMerch
+from rest_framework import status
 
 def home(request):
     context = {
         'posts': Post.objects.all()
     }
     return render(request, 'upload/home.html', context)
+
+
+@login_required(login_url='/login/')
+def add_comment(request,post_id):
+    post = get_object_or_404(Post, pk=post_id)
+    if request.method == 'POST':
+        form = CommentForm(request.POST)
+        if form.is_valid():
+            comment = form.save(commit=False)
+            comment.user = request.user
+
+            comment.post = post
+            comment.save()
+    return redirect('home')
 
 
 class PostListView(ListView):
@@ -94,7 +115,7 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
 
 
 
-
+@login_required(login_url='/login/')
 def search_results(request):
     
     if 'posts' in request.GET and request.GET["post"]:
@@ -107,3 +128,17 @@ def search_results(request):
     else:
         message = "You haven't searched for any term"
         return render(request, 'all-news/search.html',{"message":message})
+    
+    
+class MerchList(APIView):
+    def get(self, request, format=None):
+        all_merch = VotesMerch.objects.all()
+        serializers = MerchSerializer(all_merch, many=True)
+        return Response(serializers.data)
+    
+    def post(self, request, format=None):
+        serializers = MerchSerializer(data=request.data)
+        if serializers.is_valid():
+            serializers.save()
+            return Response(serializers.data, status=status.HTTP_201_CREATED)
+        return Response(serializers.errors, status=status.HTTP_400_BAD_REQUEST)
