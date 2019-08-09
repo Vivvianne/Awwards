@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from .models import Post
+from .models import Post, Comments
 from django.contrib.auth import authenticate, login, logout
 from .forms import PostCreateForm, CommentsForm
 from django.contrib.auth.models import User
@@ -60,8 +60,30 @@ class UserPostListView(ListView):
         
     
     
-class PostDetailView(DetailView):
-    model = Post
+def post_detail(request, pk):
+    object = Post.objects.filter(id = pk).first()
+    print(object.title)
+    comments = Comments.objects.all()
+    print(comments)
+    current_user = request.user
+    if request.method =='POST':
+            form = CommentsForm(request.POST, request.FILES)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.commentor = request.user
+                comment.post = object
+                comment.save()
+                return redirect('post-detail', pk)
+    else:
+            form = CommentsForm()
+    
+    
+    context = {
+        "object":object,
+        "form":form,
+        "comments":comments
+    }
+    return render (request, "upload/post_detail.html", context)
     # template_name = 'upload/post_details.html'
     
     
