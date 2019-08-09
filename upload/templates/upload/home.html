@@ -25,6 +25,7 @@
                 <h4><a class="article-title" href="{% url 'post-detail' post.id %}">{{ post.title }}</a></h4>
                 <small class="article-description">{{ post.description }}</small>
                 <small class="article-link">{{ post.link }}</small>
+                <h4><a class="article-comment" href="{% url 'comment' post.id %}">Comment</a></h4>
                 <small class="article-comments">
                     <ul id="comment" class="btn btn-info"><i class="fas fa-comment">
                             {% for comment in comments %}
@@ -32,16 +33,7 @@
                             {% endfor %}
                         </i>
                     </ul>
-                    <form action="" method="post">
-                        {% csrf_token %}
-                        <fieldset class="form-group">
-                            <legend class="border-bottom mb-4">comment</legend>
-                            {{ form }}
-                            <input type="submit" class="btn btn-primary" value="Post">
-
-                        </fieldset>
-
-                    </form>
+                    
                 </small>
                 <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}
                 </small>

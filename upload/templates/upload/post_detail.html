@@ -29,16 +29,19 @@
                         {% endfor %}
                     </i>
                 </ul>
-                <form action="" method="post">
-                    {% csrf_token %}
-                    <fieldset class="form-group">
-                        <legend class="border-bottom mb-4">comment</legend>
-                        {{ form }}
-                        <input type="submit" class="btn btn-primary" value="Post">
+               <div class="content-section">
+                    <form method="POST" action="{% url 'comment' object.id %}" enctype="multipart/form-data">
+                        {% csrf_token %}
+                        <fieldset class="form-group">
+                            <legend class="border-bottom mb-4">Comment</legend>
+                            {{ form|crispy }}
 
-                    </fieldset>
+                        </fieldset>
+                        <div class="form-group">
+                            <button class"btn btn-outline-info" type="submit">Post</button>
 
-                </form>
+                    </form>
+                </div>
             </small> 
             <small class="text-muted">{{ post.date_posted|date:"F d, Y" }}
             </small>

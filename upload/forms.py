@@ -5,10 +5,10 @@ from .models import Comments
 from .models import Post
 
 class CommentsForm(forms.ModelForm):
-       class Meta:
+    class Meta:
         model = Comments
-        fields = ('commentor', 'post')
-        exclude = ['post','username','date','count']
+        fields = ['comment',]
+        exclude = ['commentor', 'post']
         
         
         

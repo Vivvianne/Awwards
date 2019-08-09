@@ -1,7 +1,7 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from .models import Post
 from django.contrib.auth import authenticate, login, logout
-from .forms import PostCreateForm
+from .forms import PostCreateForm, CommentsForm
 from django.contrib.auth.models import User
 from django.views.generic import (
     ListView,
@@ -27,18 +27,18 @@ def home(request):
     return render(request, 'upload/home.html', context)
 
 
-@login_required(login_url='/login/')
-def add_comment(request,post_id):
-    post = get_object_or_404(Post, pk=post_id)
-    if request.method == 'POST':
-        form = CommentForm(request.POST)
-        if form.is_valid():
-            comment = form.save(commit=False)
-            comment.user = request.user
+# @login_required(login_url='/login/')
+# def add_comment(request,post_id):
+#     post = get_object_or_404(Post, pk=post_id)
+#     if request.method == 'POST':
+#         form = CommentForm(request.POST)
+#         if form.is_valid():
+#             comment = form.save(commit=False)
+#             comment.user = request.user
 
-            comment.post = post
-            comment.save()
-    return redirect('home')
+#             comment.post = post
+#             comment.save()
+#     return redirect('home')
 
 
 class PostListView(ListView):
@@ -113,6 +113,24 @@ class PostDeleteView(LoginRequiredMixin, UserPassesTestMixin, DeleteView):
         if self.request.user ==post.author:
             return True
         return False
+
+
+@login_required(login_url='/login/')
+def comment(request, id):
+    posts = Post.objects.get(pk=id)
+    current_user = request.user
+    if request.method =='POST':
+            form = CommentsForm(request.POST, request.FILES)
+            if form.is_valid():
+                comment = form.save(commit=False)
+                comment.commentor = request.user
+                comment.post = posts
+                comment.save()
+                return redirect('upload/home.html', post_id = id)
+    else:
+            form = CommentsForm()
+    return render(request,'post-detail',{'form':form})
+    
 
 
 
